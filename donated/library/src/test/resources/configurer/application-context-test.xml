@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="configUtil"
+    class="com.eharmony.configuration.ConfigUtil"
+    factory-method="getInstance" />
+
+  <bean id="configManager"
+    class="com.eharmony.configuration.ConfigManagerImpl">
+    <property name="configUtil">
+      <ref bean="configUtil" />
+    </property>
+  </bean>
+  <bean id="configuration"
+    class="com.eharmony.configuration.ConfigPropertiesFactoryBean">
+    <property name="singleton" value="true" />
+    <property name="rootConfig" value="classpath://configurer/eh-config-bootstrap.properties" />
+    <property name="manager">
+      <ref bean="configManager" />
+    </property>
+  </bean>
+
+  <bean class="com.eharmony.configuration.ConfigPlaceholderConfigurer">
+
+    <!-- if the property configuration is not set, it will behave just like a regular
+         Spring PropertyPlacehloderConfigurer -->
+    <property name="configuration" ref="configuration"></property>
+
+    <!-- Optionally the locations properties can be set then this will fall back to
+         Spring's original PropertyPlaceHolderConfigurer funcationality -->
+    <property name="locations">
+      <value>classpath:/configurer/configPlaceholderConfigurer.properties</value>
+    </property>
+
+  </bean>
+
+  <bean id="foo" class="com.eharmony.configuration.Foo">
+    <property name="foo" value="${configurer.test.foo}"/>
+    <property name="count" value="${configurer.test.count}"/>
+    <property name="happy" value="${configurer.test.happy}"/>
+  </bean>
+
+</beans>

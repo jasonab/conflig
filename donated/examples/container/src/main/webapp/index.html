@@ -1,0 +1,39 @@
+<html>
+    <head>
+	   Running the configTest Sample App
+	</head>
+	
+	<body>
+	   <ol>
+	       <li> 
+		      To test property override from file system, create folder /data/configTest/conf.  
+			  Then create file configTest.global.properties in this folder. This is the overriding properties file.
+			  Put a new property there or change value for an exiting property, then wait a minute 
+			  (this is the defined reload interval) then go to <a href="triggerReload">Trigger Reload</a>
+			  page to trigger the refresh.
+		   </li>
+		   <li>
+		      Go to <a href="configTest">testing page</a> to see all properties listed.
+		   </li>
+		   <li>
+		      All property files (eh-config.properties and various application configuraiton property files) 
+			  are in WEB-INF/classes folder.  I have a configTest.server.subscriptionServer.properties.  You may
+			  want replace subscriptionServer with your WL server name if you want properties from that file
+			  to show up.
+		   </li>
+		   <li>
+		      Note that we have to declare a resource refrence in web.xml (or ejb-jar.xml).
+			  <pre>
+			  <code>
+				  &lt;resource-ref&gt;
+				    &lt;res-ref-name&gt;wm/configWorkManager&lt;/res-ref-name&gt;
+				    &lt;res-type&gt;commonj.work.WorkManager&lt;/res-type&gt;
+				    &lt;res-auth&gt;Container&lt;/res-auth&gt;
+				    &lt;res-sharing-scope&gt;Shareable&lt;/res-sharing-scope&gt;
+				  &lt;/resource-ref&gt;
+			  </code>
+			  </pre>
+		   </li>
+	   </ol>
+	</body>
+</html>

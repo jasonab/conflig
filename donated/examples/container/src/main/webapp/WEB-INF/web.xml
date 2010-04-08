@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4"
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>configTest</servlet-name>
+    <servlet-class>com.eharmony.configuration.servlet.ConfigTestServlet</servlet-class>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>triggerReload</servlet-name>
+    <servlet-class>com.eharmony.configuration.servlet.TriggerReloadServlet</servlet-class>
+  </servlet>
+ 
+  <servlet-mapping>
+    <servlet-name>configTest</servlet-name>
+    <url-pattern>/configTest</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>triggerReload</servlet-name>
+    <url-pattern>/triggerReload</url-pattern>
+  </servlet-mapping>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- 
+    Looks this there is no way around declaring resource reference here.  Could not 
+    find a way to create a commonj WorkManager from WebLogic admin console.  Admin
+    Console only provides a way of creating WebLogic WorkManager, which can only
+    be accessed with dispatch poloicy via deployment descriptors.
+  -->
+  <resource-ref>
+    <res-ref-name>wm/ConfigWorkManager</res-ref-name>
+    <res-type>commonj.work.WorkManager</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>
+  </resource-ref>
+</web-app>
